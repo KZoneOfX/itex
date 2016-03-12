@@ -5,18 +5,16 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Xiaoke Zhang
  * Date: 3/12/2016
  * Time: 11:22 AM
- * To change this template use File | Settings | File Templates.
- */
+ * pdf 页面 整合实体类
+ * */
 public class PdfLayoutCase {
 
     private String filePath;            //文件路径
@@ -89,50 +87,59 @@ public class PdfLayoutCase {
     public String process() throws IOException, DocumentException {
         String  newFile = filePath+"_"+row+"_"+column+".pdf";
         PdfReader reader = new PdfReader(filePath); //等待排版的文件
-        Document document = new Document(rectangle, 10, 10, 10, 10);
+        Document document = new Document(rectangle, 10, 10, 40, 10);// 调整 距离上边为 40
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(newFile)); //排版之后的文件
         PdfImportedPage pdfImportedPage ;
         Image image;
         document.open();
-        PdfPTable table = new PdfPTable(column);
 
-        table.getDefaultCell().setBorder(0);
-        table.setWidthPercentage(90);
+        PdfPTable table = new PdfPTable(column);  //定义一个 n行 column 列的 pdftable
+        table.getDefaultCell().setBorder(0);      //PfdTable 边框宽度为0
         int pageNumber =  reader.getNumberOfPages();
-
+        //将原pdf中的每页放置到 新pdf的table 中
         for (int i = 1; i < pageNumber+1; i++) {
             pdfImportedPage = writer.getImportedPage(reader,i);
             image = Image.getInstance(pdfImportedPage);
             table.addCell(image);
         }
+        //补全 table 中的最后一行
         table.completeRow();
         document.add(table);
         document.close();
         return newFile;
     }
 
-    public String addEmpty() throws IOException, DocumentException {
-        String  newFile = filePath+"_add_empty"+".pdf";
+    public int getPageNumber() throws IOException, DocumentException {
         PdfReader reader = new PdfReader(filePath); //等待排版的文件
-        PdfReader readerEmpty = new PdfReader("C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\production\\itex\\com\\paipai\\empty.pdf"); //空白的
+        int pageNumber =  reader.getNumberOfPages();
+        return pageNumber;
+    }
 
-        Document document = new Document(rectangle, 10, 10, 10, 10);
+    /**
+     * 排版文档的第一页
+     * @return
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public String processFirst() throws IOException, DocumentException {
+        String  newFile = filePath+"_"+row+"_"+column+".pdf";
+        PdfReader reader = new PdfReader(filePath); //等待排版的文件
+        Document document = new Document(rectangle, 10, 10, 40, 10);// 调整 距离上边为 40
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(newFile)); //排版之后的文件
         PdfImportedPage pdfImportedPage ;
         Image image;
         document.open();
-        PdfPTable table = new PdfPTable(1);
 
-        table.getDefaultCell().setBorder(0);
-        table.setWidthPercentage(90);
-        table.addCell(Image.getInstance(writer.getImportedPage(readerEmpty,1)));
+        PdfPTable table = new PdfPTable(column);  //定义一个 n行 column 列的 pdftable
+        table.getDefaultCell().setBorder(0);      //PfdTable 边框宽度为0
         int pageNumber =  reader.getNumberOfPages();
-
-        for (int i = 1; i < pageNumber+1; i++) {
+        //将原pdf中的每页放置到 新pdf的table 中
+        for (int i = 1; i <= column * row && i<= pageNumber; i++) {
             pdfImportedPage = writer.getImportedPage(reader,i);
             image = Image.getInstance(pdfImportedPage);
             table.addCell(image);
         }
+        //补全 table 中的最后一行
         table.completeRow();
         document.add(table);
         document.close();
