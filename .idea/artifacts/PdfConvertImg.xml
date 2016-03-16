@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PdfConvertImg">
+    <output-path>$PROJECT_DIR$/out/artifacts/PdfConvertImg</output-path>
+    <root id="archive" name="PdfConvertImg.jar">
+      <element id="module-output" name="itex" />
+      <element id="library" level="project" name="commons-logging-1.2" />
+      <element id="library" level="project" name="fontbox-1.8.11" />
+      <element id="library" level="project" name="pdfbox-1.8.11" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/PdfConvertImg/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
