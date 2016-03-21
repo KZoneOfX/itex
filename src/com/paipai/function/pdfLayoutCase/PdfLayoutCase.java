@@ -122,7 +122,13 @@ public class PdfLayoutCase {
      * @throws DocumentException
      */
     public String processFirst() throws IOException, DocumentException {
-        String  newFile = filePath+"_"+row+"_"+column+".pdf";
+        String  newFile;
+        if (rectangle.equals(A4_crosswise)){
+            newFile = filePath+"_"+row+"_"+column+"_1.pdf";
+        }else {
+            newFile = filePath+"_"+row+"_"+column+"_0.pdf";
+        }
+//        String  newFile = filePath+"_"+row+"_"+column+".pdf";
         PdfReader reader = new PdfReader(filePath); //等待排版的文件
         Document document = new Document(rectangle, 10, 10, 40, 10);// 调整 距离上边为 40
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(newFile)); //排版之后的文件

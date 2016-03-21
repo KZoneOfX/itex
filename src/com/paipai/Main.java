@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args) throws IOException, DocumentException, InterruptedException, SQLException {
-        args = new String[]{"C:\\Users\\Xiaoke Zhang\\Documents\\Test\\Chapter8 Object-oriented Software Testing and Web system Testing.pdf","cb87c1df669284fd95838209d201144d"};
+//        args = new String[]{"C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\artifacts\\demo\\demo_pdf.pdf","cb87c1df669284fd95838209d201144d"};
         String file_name = args[0];
         String file_id = args[1];
         args = new String[]{args[0],"1*1","1"};
@@ -43,7 +43,9 @@ public class Main {
 //        new WriteTxtCase().writeTxt(file_name,pageNumber);
         if(suffix.equals("pdf")){
             process(new String[]{args[0],"1*1","0"});
+            process(new String[]{args[0],"1*1","1"});
             process(new String[]{args[0],"1*2","1"});
+            process(new String[]{args[0],"2*1","0"});
             process(new String[]{args[0],"2*2","1"});
             process(new String[]{args[0],"3*3","1"});
             System.out.println("PDF not need to convert!");
