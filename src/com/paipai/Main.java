@@ -1,6 +1,7 @@
 package com.paipai;
 
 import com.itextpdf.text.DocumentException;
+import com.paipai.function.connectMysql.PdfPageNumberUpdateCase;
 import com.paipai.function.convertToPdf.FileUtils;
 import com.paipai.function.convertToPdf.JacobPDFConverter;
 import com.paipai.function.pdfConvertImg.PdfConvertImgCase;
@@ -8,6 +9,7 @@ import com.paipai.function.pdfLayoutCase.PdfLayoutCase;
 import com.paipai.function.writeTxt.WriteTxtCase;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,15 +24,11 @@ import java.io.IOException;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException, DocumentException, InterruptedException {
-//		args =new String[]{"C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\production\\itex\\com\\paipai\\demo_doc.doc"};
-//        args =new String[]{args[0],"",""};
-//        args=new String[]{"C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\production\\itex\\com\\paipai\\ppt_demo2.pdf","1*1","0"};
-//        args=new String[]{"C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\production\\itex\\com\\paipai\\demo_doc.doc","1*1","0"};
-//        args=new String[]{"C:\\Users\\Xiaoke Zhang\\OneDrive\\Code\\[2016]\\IdeaProjects\\itex\\out\\production\\itex\\com\\paipai\\demo_ppt.ppt","1*1","0"};
-//        PdfLayoutCase pdfLayoutCase = new PdfLayoutCase(args);
-//        System.out.println(pdfLayoutCase.processFirst());
+    public static void main(String[] args) throws IOException, DocumentException, InterruptedException, SQLException {
+        args = new String[]{"C:\\Users\\Xiaoke Zhang\\Documents\\Test\\Chapter8 Object-oriented Software Testing and Web system Testing.pdf","cb87c1df669284fd95838209d201144d"};
         String file_name = args[0];
+        String file_id = args[1];
+        args = new String[]{args[0],"1*1","1"};
         System.out.println(args[0]);
         String  suffix= FileUtils.getFileSufix(file_name);
         System.out.println("suffix:"+suffix);
@@ -39,7 +37,10 @@ public class Main {
         System.out.println("convert success"+file_name);
         args[0]= file_name;
         int pageNumber =  new PdfLayoutCase(args).getPageNumber();
-        new WriteTxtCase().writeTxt(file_name,pageNumber);
+        //更新文件页数 进入数据库中  yunPrint
+        new PdfPageNumberUpdateCase(file_id,pageNumber).update_pdf_file_page();
+//        将文件页数 写到文件中page.txt 。
+//        new WriteTxtCase().writeTxt(file_name,pageNumber);
         if(suffix.equals("pdf")){
             process(new String[]{args[0],"1*1","0"});
             process(new String[]{args[0],"1*2","1"});

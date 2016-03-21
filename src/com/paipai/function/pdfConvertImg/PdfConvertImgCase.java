@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class PdfConvertImgCase {
 
 
     public String process() throws IOException, InterruptedException {
-        String newFilePath =filePath+"_"+new Date().getTime()+"_Pic.jpg";
+        String newFilePath =filePath+"_Pic.jpg";
 
         //载入要转换的pdf
         PDDocument doc = PDDocument.load(filePath);
@@ -51,7 +50,6 @@ public class PdfConvertImgCase {
         BufferedImage image = page.convertToImage();
         Iterator iterator = ImageIO.getImageWritersBySuffix("jpg");
         ImageWriter writer = (ImageWriter)iterator.next();
-
         //图片写入
         File outFile = new File(newFilePath);
         FileOutputStream out = new FileOutputStream(outFile);
@@ -59,7 +57,8 @@ public class PdfConvertImgCase {
         writer.setOutput(outImage);
         writer.write(new IIOImage(image,null,null));
         doc.close();
-
+        outFile = new File(filePath);
+        outFile.delete();
         return newFilePath;
     }
 }

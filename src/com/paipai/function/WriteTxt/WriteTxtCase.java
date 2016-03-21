@@ -14,9 +14,13 @@ public class WriteTxtCase {
     }
 
     public void writeTxt(String file_name,int pageNumber) throws IOException {
-        File file = new File("page.txt");
+//        File file = new File("page.txt");  //测试地址
+        File file = new File("C:\\Users\\Administrator\\Desktop\\Apache24\\bin\\page.txt"); //服务器地址
+//        File file = new File("C:\\Users\\Administrator\\Desktop\\mysite\\page.txt"); //服务器地址
+//        System.out.println("page.txt path:"+"C:\\Users\\Administrator\\Desktop\\mysite\\page.txt");
         if (!file.exists()){
             file.createNewFile();
+//            System.out.println("create page.txt");
         }
         String oldString= "";
         String subString ;
